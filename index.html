@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipamentos Médicos e Hospitalares 2</title>
+    <style>
+        /* Estilos para dispositivos móveis */
+        @media (max-width: 768px) {
+            body {
+                overflow-y: scroll; /* Adicione uma barra de rolagem vertical em telas menores */
+            }
+
+            .equipment img {
+                max-width: 80%; /* Reduza o tamanho da imagem para 80% em telas menores */
+                height: auto;
+            }
+
+            h1 {
+                font-size: 18px; /* Reduza o tamanho da fonte do título em telas menores */
+            }
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh; /* Use min-height para evitar o corte vertical */
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .equipment-container {
+            margin: 90px 40px 30px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .equipment {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 10px;
+            cursor: pointer;
+            text-align: center;
+            background-color: white;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+            /* Tamanho padrão para imagens */
+            width: 300px;
+        }
+
+        .equipment h3 {
+
+            font-size: 26px;
+        }
+
+        .equipment:hover {
+            background-color: #f0f0f0;
+            transform: scale(1.02);
+        }
+
+        .equipment img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+        }
+
+        .equipment-description {
+            display: none;
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        /* Estilos para o campo de descrição */
+        .description-modal {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .description-modal textarea {
+            width: 100%;
+            resize: vertical;
+            min-height: 100px;
+            padding: 10px;
+        }
+
+        /* Botão de salvar */
+        .description-modal .save-button {
+            margin-top: 10px;
+        }
+
+        .modal-content {
+            max-height: 80vh; /* Defina o valor desejado, como 80% da altura da janela do computador */
+            overflow-y: auto; /* Adicione uma barra de rolagem vertical se o conteúdo exceder a altura máxima */
+        }
+
+        .modal-body textarea {
+            overflow: hidden;
+        }
+
+        /* Estilo para a div do logo */
+        .logo-container {
+            position: fixed;
+            bottom: 10px; /* Ajuste a distância do topo conforme necessário */
+            right: 10px; /* Ajuste a distância da esquerda conforme necessário */
+        }
+
+        /* Estilo para a imagem do logo */
+        .logo-container img {
+            width: 150px; /* Ajuste a largura conforme necessário */
+            height: auto; /* Isso mantém a proporção da imagem */
+
+        }
+
+        /* Estilo para a logo da universidade */
+        .university-logo {
+            position: absolute;
+            top: 10px; /* Ajuste a distância do topo conforme necessário */
+            left: 10px; /* Ajuste a distância da esquerda conforme necessário */
+            display: block; /* Exibe a logo por padrão em todas as telas */
+        }
+
+        /* Estilo para a imagem do logo */
+        .university-logo img {
+            width: 150px; /* Ajuste a largura conforme necessário */
+            height: auto; /* Isso mantém a proporção da imagem */
+        }
+
+        /* Estilo para exibir a logo da universidade acima do título H1 em telas com largura máxima de 768px */
+        @media (max-width: 768px) {
+            .university-logo {
+                position: relative; /* Remove a posição absoluta */
+                top: auto; /* Remove o deslocamento vertical */
+                left: auto; /* Remove o deslocamento horizontal */
+                text-align: center; /* Centraliza horizontalmente */
+                margin-bottom: 20px; /* Espaçamento inferior para separar da título H1 */
+            }
+        }
+
+
+    </style>
+    <!-- Adicione o Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="icon" href="data:image/png;base64,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" type="image/x-icon">
+    <link rel="shortcut icon" href="data:image/png;base64,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" type="image/x-icon">
+
+</head>
+<body>
+<h1>Equipamentos Médicos-Hospitalares 2</h1>
+
+<div class="logo-container">
+    <img src="data:image/png;base64,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"
+         alt="Logo Departamento de Engenharia Biomédica">
+</div>
+<div class="university-logo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/a/ae/Logo-ufpe-2-2.jpg" alt="Logo da Universidade">
+</div>
+
+<div class="equipment-container">
+    <!-- Equipamento: Berço Aquecido -->
+    <div class="equipment" onclick="showDescription('bercoaquecido')">
+        <h3>BERÇO AQUECIDO</h3>
+        <img src="https://cleanmedical.com.br/wp-content/uploads/2019/12/AMPLA_FRENTE.jpg"
+             alt="Imagem do Berço Aquecido">
+    </div>
+    <div id="bercoaquecido-description" class="equipment-description">
+        <p>Descrição do funcionamento do Berço Aquecido.</p>
+    </div>
+    <!-- Modal para a descrição do Berço Aquecido -->
+    <div class="modal fade description-modal" id="bercoaquecido-modal" tabindex="-1" role="dialog"
+         aria-labelledby="bercoaquecido-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bercoaquecido-modal-label">Descrição do Berço Aquecido</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <textarea id="bercoaquecido-description-text" class="form-control"
+                              placeholder="Digite o funcionamento do Berço Aquecido..."
+                              oninput="autoExpand(this)"></textarea>
+                    <button class="btn btn-primary save-button"
+                            onclick="saveDescription('bercoaquecido-description-text', 'bercoaquecido')">Salvar
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Repita o mesmo padrão para outros equipamentos -->
+    <!-- Equipamento: Incubadora -->
+    <div class="equipment" onclick="showDescription('incubadora')">
+        <h3>INCUBADORA</h3>
+        <img src="https://fanem.com.br/wp-content/uploads/2018/03/INCUBADORA-FANEM_1186C_01.jpg"
+             alt="Imagem da Incubadora">
+    </div>
+    <div id="incubadora-description" class="equipment-description">
+        <p>Descrição do funcionamento da Incubadora.</p>
+    </div>
+    <!-- Modal para a descrição da Incubadora -->
+    <div class="modal fade description-modal" id="incubadora-modal" tabindex="-1" role="dialog"
+         aria-labelledby="incubadora-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="incubadora-modal-label">Descrição da Incubadora</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <textarea id="incubadora-description-text" class="form-control"
+                              placeholder="Digite o funcionamento da Incubadora..."
+                              oninput="autoExpand(this)"></textarea>
+                    <button class="btn btn-primary save-button"
+                            onclick="saveDescription('incubadora-description-text', 'incubadora')">Salvar
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Equipamento: ECG -->
+    <div class="equipment" onclick="showDescription('ecg')">
+        <h3>ECG</h3>
+        <img src="https://dormed.vtexassets.com/arquivos/ids/161588-600-auto?v=637372625827170000&width=600&height=auto&aspect=true"
+             alt="Imagem do ECG">
+    </div>
+    <div id="ecg-description" class="equipment-description">
+        <p>Descrição do funcionamento do ECG.</p>
+    </div>
+    <!-- Modal para a descrição do ECG -->
+    <div class="modal fade description-modal" id="ecg-modal" tabindex="-1" role="dialog"
+         aria-labelledby="ecg-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ecg-modal-label">Descrição do ECG</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <textarea id="ecg-description-text" class="form-control"
+                              placeholder="Digite o funcionamento do ECG..." oninput="autoExpand(this)"></textarea>
+                    <button class="btn btn-primary save-button"
+                            onclick="saveDescription('ecg-description-text', 'ecg')">Salvar
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Equipamento: Oxímetro de Pulso -->
+    <div class="equipment" onclick="showDescription('oximetropulso')">
+        <h3>OXÍMETRO DE PULSO</h3>
+        <img src="https://centermedical.vtexassets.com/arquivos/ids/171583/Oximetro-de-Pulso-Portatil-c--Onda-Pletismografica---MD---UT-100-Center-Medical.png?v=637992987122030000"
+             alt="Imagem do Oxímetro de Pulso">
+    </div>
+    <div id="oximetropulso-description" class="equipment-description">
+        <p>Descrição do funcionamento do Oxímetro de Pulso.</p>
+    </div>
+    <!-- Modal para a descrição do Oxímetro de Pulso -->
+    <div class="modal fade description-modal" id="oximetropulso-modal" tabindex="-1" role="dialog"
+         aria-labelledby="oximetropulso-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="oximetropulso-modal-label">Descrição do Oxímetro de Pulso</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <textarea id="oximetropulso-description-text" class="form-control"
+                              placeholder="Digite o funcionamento do Oxímetro de Pulso..."
+                              oninput="autoExpand(this)"></textarea>
+                    <button class="btn btn-primary save-button"
+                            onclick="saveDescription('oximetropulso-description-text', 'oximetropulso')">Salvar
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Equipamento: Desfibrilador e Cardioversor -->
+    <div class="equipment" onclick="showDescription('desfibriladorcardioversor')">
+        <h3>DESFIBRILADOR E CARDIOVERSOR</h3>
+        <img src="https://dw0jruhdg6fis.cloudfront.net/producao/4501212/G/cardiomax.jpg"
+             alt="Imagem do Desfibrilador e Cardioversor">
+    </div>
+    <div id="desfibriladorcardioversor-description" class="equipment-description">
+        <p>Descrição do funcionamento do Desfibrilador e Cardioversor.</p>
+    </div>
+    <!-- Modal para a descrição do Desfibrilador e Cardioversor -->
+    <div class="modal fade description-modal" id="desfibriladorcardioversor-modal" tabindex="-1" role="dialog"
+         aria-labelledby="desfibriladorcardioversor-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="desfibriladorcardioversor-modal-label">Descrição do Desfibrilador e
+                        Cardioversor</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <textarea id="desfibriladorcardioversor-description-text" class="form-control"
+                              placeholder="Digite o funcionamento do Desfibrilador e Cardioversor..."
+                              oninput="autoExpand(this)"></textarea>
+                    <button class="btn btn-primary save-button"
+                            onclick="saveDescription('desfibriladorcardioversor-description-text', 'desfibriladorcardioversor')">
+                        Salvar
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Repita o mesmo padrão para outros equipamentos -->
+    <!-- Equipamento: Eletroestimulador -->
+    <div class="equipment" onclick="showDescription('eletroestimulador')">
+        <h3>ELETROESTIMULADOR</h3>
+        <img src="https://d2atw6lq8el64o.cloudfront.net/Custom/Content/Products/05/86/0586_neurodyn-iii-ibramed-tens-fes-e-burst-02-canais_m1_637570250233482366.jpg"
+             alt="Imagem do Eletroestimulador">
+    </div>
+    <div id="eletroestimulador-description" class="equipment-description">
+        <p>Descrição do funcionamento do Eletroestimulador.</p>
+    </div>
+    <!-- Modal para a descrição do Eletroestimulador -->
+    <div class="modal fade description-modal" id="eletroestimulador-modal" tabindex="-1" role="dialog"
+         aria-labelledby="eletroestimulador-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eletroestimulador-modal-label">Descrição do Eletroestimulador</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <textarea id="eletroestimulador-description-text" class="form-control"
+                              placeholder="Digite o funcionamento do Eletroestimulador..."
+                              oninput="autoExpand(this)"></textarea>
+                    <button class="btn btn-primary save-button"
+                            onclick="saveDescription('eletroestimulador-description-text', 'eletroestimulador')">Salvar
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Equipamento: Equipamento de Esterilização -->
+    <div class="equipment" onclick="showDescription('esterilizacao')">
+        <h3>ESTERILIZAÇÃO</h3>
+        <img src="https://celitron.com/images/content/product/medical-solutions/large/02.jpg?v=1693915785"
+             alt="Imagem do Equipamento de Esterilização">
+    </div>
+    <div id="esterilizacao-description" class="equipment-description">
+        <p>Descrição do funcionamento do Equipamento de Esterilização.</p>
+    </div>
+    <!-- Modal para a descrição do Equipamento de Esterilização -->
+    <div class="modal fade description-modal" id="esterilizacao-modal" tabindex="-1" role="dialog"
+         aria-labelledby="esterilizacao-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="esterilizacao-modal-label">Descrição do Equipamento de
+                        Esterilização</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <textarea id="esterilizacao-description-text" class="form-control"
+                              placeholder="Digite o funcionamento do Equipamento de Esterilização..."
+                              oninput="autoExpand(this)"></textarea>
+                    <button class="btn btn-primary save-button"
+                            onclick="saveDescription('esterilizacao-description-text', 'esterilizacao')">Salvar
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Equipamento: Bisturi Elétrico -->
+    <div class="equipment" onclick="showDescription('bisturieletrico')">
+        <h3>BISTURI ELÉTRICO</h3>
+        <img src="https://cdn.awsli.com.br/600x450/1594/1594878/produto/65252005/94e542abb7.jpg"
+             alt="Imagem do Bisturi Elétrico">
+    </div>
+    <div id="bisturieletrico-description" class="equipment-description">
+        <p>Descrição do funcionamento do Bisturi Elétrico.</p>
+    </div>
+    <!-- Modal para a descrição do Bisturi Elétrico -->
+    <div class="modal fade description-modal" id="bisturieletrico-modal" tabindex="-1" role="dialog"
+         aria-labelledby="bisturieletrico-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bisturieletrico-modal-label">Descrição do Bisturi Elétrico</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <textarea id="bisturieletrico-description-text" class="form-control"
+                              placeholder="Digite o funcionamento do Bisturi Elétrico..."
+                              oninput="autoExpand(this)"></textarea>
+                    <button class="btn btn-primary save-button"
+                            onclick="saveDescription('bisturieletrico-description-text', 'bisturieletrico')">Salvar
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Equipamento: Bomba de Infusão -->
+    <div class="equipment" onclick="showDescription('bombainfusao')">
+        <h3>BOMBA DE INFUSÃO</h3>
+        <img src="https://sinalvital.com.br/wp-content/uploads/2020/05/Bomba-de-Equipo-550-T2-1.jpg"
+             alt="Imagem da Bomba de Infusão">
+    </div>
+    <div id="bombainfusao-description" class="equipment-description">
+        <p>Descrição do funcionamento da Bomba de Infusão.</p>
+    </div>
+    <!-- Modal para a descrição da Bomba de Infusão -->
+    <div class="modal fade description-modal" id="bombainfusao-modal" tabindex="-1" role="dialog"
+         aria-labelledby="bombainfusao-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bombainfusao-modal-label">Descrição da Bomba de Infusão</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <textarea id="bombainfusao-description-text" class="form-control"
+                              placeholder="Digite o funcionamento da Bomba de Infusão..."
+                              oninput="autoExpand(this)"></textarea>
+                    <button class="btn btn-primary save-button"
+                            onclick="saveDescription('bombainfusao-description-text', 'bombainfusao')">Salvar
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Equipamento: Ventilador Pulmonar -->
+    <div class="equipment" onclick="showDescription('ventiladorpulmonar')">
+        <h3>VENTILADOR PULMONAR</h3>
+        <img src="https://d1p6nzzdute2g.cloudfront.net/lojas/loja-336/05fb78a1-f25b-42ba-a4a3-98d7ea2ef603"
+             alt="Imagem do Ventilador Pulmonar">
+    </div>
+    <div id="ventiladorpulmonar-description" class="equipment-description">
+        <p>Descrição do funcionamento do Ventilador Pulmonar.</p>
+    </div>
+    <!-- Modal para a descrição do Ventilador Pulmonar -->
+    <div class="modal fade description-modal" id="ventiladorpulmonar-modal" tabindex="-1" role="dialog"
+         aria-labelledby="ventiladorpulmonar-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ventiladorpulmonar-modal-label">Descrição do Ventilador Pulmonar</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <textarea id="ventiladorpulmonar-description-text" class="form-control"
+                              placeholder="Digite o funcionamento do Ventilador Pulmonar..."
+                              oninput="autoExpand(this)"></textarea>
+                    <button class="btn btn-primary save-button"
+                            onclick="saveDescription('ventiladorpulmonar-description-text', 'ventiladorpulmonar')">
+                        Salvar
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Equipamento: Sistema de Anestesia -->
+    <div class="equipment" onclick="showDescription('sistemaanestesia')">
+        <h3>SISTEMA DE ANESTESIA</h3>
+        <img src="https://img.medicalexpo.com/pt/images_me/photo-m2/130591-16425393.jpg"
+             alt="Imagem do Sistema de Anestesia">
+    </div>
+    <div id="sistemaanestesia-description" class="equipment-description">
+        <p>Descrição do funcionamento do Sistema de Anestesia.</p>
+    </div>
+    <!-- Modal para a descrição do Sistema de Anestesia -->
+    <div class="modal fade description-modal" id="sistemaanestesia-modal" tabindex="-1" role="dialog"
+         aria-labelledby="sistemaanestesia-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sistemaanestesia-modal-label">Descrição do Sistema de Anestesia</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <textarea id="sistemaanestesia-description-text" class="form-control"
+                              placeholder="Digite o funcionamento do Sistema de Anestesia..."
+                              oninput="autoExpand(this)"></textarea>
+                    <button class="btn btn-primary save-button"
+                            onclick="saveDescription('sistemaanestesia-description-text', 'sistemaanestesia')">Salvar
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Equipamento: Hemodiálise -->
+    <div class="equipment" onclick="showDescription('hemodialise')">
+        <h3>HEMODIÁLISE</h3>
+        <img src="https://www.bbraun.com.br/content/dam/catalog/bbraun/bbraunProductCatalog/S/AEM2015/pt-br/b1/dialog.jpeg"
+             alt="Imagem da Hemodiálise">
+    </div>
+    <div id="hemodialise-description" class="equipment-description">
+        <p>Descrição do funcionamento da Hemodiálise.</p>
+    </div>
+    <!-- Modal para a descrição da Hemodiálise -->
+    <div class="modal fade description-modal" id="hemodialise-modal" tabindex="-1" role="dialog"
+         aria-labelledby="hemodialise-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="hemodialise-modal-label">Descrição da Hemodiálise</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <textarea id="hemodialise-description-text" class="form-control"
+                              placeholder="Digite o funcionamento da Hemodiálise..."
+                              oninput="autoExpand(this)"></textarea>
+                    <button class="btn btn-primary save-button"
+                            onclick="saveDescription('hemodialise-description-text', 'hemodialise')">Salvar
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Adicione o jQuery e o Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Função para exibir a descrição do equipamento
+        function showDescription(equipmentId) {
+            const description = document.getElementById(equipmentId + '-description');
+            $('#' + equipmentId + '-modal').modal('show');
+        }
+
+        // Função para salvar a descrição no LocalStorage
+        function saveDescription(descriptionId, equipmentId) {
+            const textarea = document.getElementById(descriptionId);
+            const descriptionText = textarea.value;
+            localStorage.setItem(equipmentId + '-' + descriptionId, descriptionText);
+        }
+
+        // Função para carregar a descrição do LocalStorage quando o modal é mostrado
+        $('.description-modal').on('show.bs.modal', function (e) {
+            const equipmentId = e.target.id.split('-')[0];
+            const descriptionId = equipmentId + '-description-text';
+            const descriptionText = localStorage.getItem(equipmentId + '-' + descriptionId);
+            const textarea = document.getElementById(descriptionId);
+            if (descriptionText) {
+                textarea.value = descriptionText;
+            } else {
+                textarea.value = ''; // Limpa o campo se não houver texto salvo
+            }
+        });
+
+        // Função para expandir automaticamente o campo de texto
+        function autoExpand(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = (textarea.scrollHeight) + 'px';
+        }
+    </script>
+</div>
+</body>
+</html>
