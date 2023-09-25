@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Equipamentos Médicos e Hospitalares 2</title>
     <style>
         /* Estilos para dispositivos móveis */
@@ -194,6 +195,8 @@
                               placeholder="Digite o funcionamento do Berço Aquecido..."
                               oninput="autoExpand(this)"></textarea>
                     <button class="btn btn-primary save-button"
+                            id="generate-description-button-bercoaquecido">Gerar Descrição</button>
+                    <button class="btn btn-primary save-button"
                             onclick="saveDescription('bercoaquecido-description-text', 'bercoaquecido')">Salvar
                     </button>
                 </div>
@@ -230,6 +233,8 @@
                               placeholder="Digite o funcionamento da Incubadora..."
                               oninput="autoExpand(this)"></textarea>
                     <button class="btn btn-primary save-button"
+                            id="generate-description-button-incubadora">Gerar Descrição</button>
+                    <button class="btn btn-primary save-button"
                             onclick="saveDescription('incubadora-description-text', 'incubadora')">Salvar
                     </button>
                 </div>
@@ -263,6 +268,8 @@
                 <div class="modal-body">
                     <textarea id="ecg-description-text" class="form-control"
                               placeholder="Digite o funcionamento do ECG..." oninput="autoExpand(this)"></textarea>
+                    <button class="btn btn-primary save-button"
+                            id="generate-description-button-ecg">Gerar Descrição</button>
                     <button class="btn btn-primary save-button"
                             onclick="saveDescription('ecg-description-text', 'ecg')">Salvar
                     </button>
@@ -299,6 +306,8 @@
                               placeholder="Digite o funcionamento do Oxímetro de Pulso..."
                               oninput="autoExpand(this)"></textarea>
                     <button class="btn btn-primary save-button"
+                            id="generate-description-button-oximetropulso">Gerar Descrição</button>
+                    <button class="btn btn-primary save-button"
                             onclick="saveDescription('oximetropulso-description-text', 'oximetropulso')">Salvar
                     </button>
                 </div>
@@ -334,6 +343,8 @@
                     <textarea id="desfibriladorcardioversor-description-text" class="form-control"
                               placeholder="Digite o funcionamento do Desfibrilador e Cardioversor..."
                               oninput="autoExpand(this)"></textarea>
+                    <button class="btn btn-primary save-button"
+                            id="generate-description-button-desfibriladorcardioversor">Gerar Descrição</button>
                     <button class="btn btn-primary save-button"
                             onclick="saveDescription('desfibriladorcardioversor-description-text', 'desfibriladorcardioversor')">
                         Salvar
@@ -372,6 +383,8 @@
                               placeholder="Digite o funcionamento do Eletroestimulador..."
                               oninput="autoExpand(this)"></textarea>
                     <button class="btn btn-primary save-button"
+                            id="generate-description-button-eletroestimulador">Gerar Descrição</button>
+                    <button class="btn btn-primary save-button"
                             onclick="saveDescription('eletroestimulador-description-text', 'eletroestimulador')">Salvar
                     </button>
                 </div>
@@ -408,6 +421,8 @@
                               placeholder="Digite o funcionamento do Equipamento de Esterilização..."
                               oninput="autoExpand(this)"></textarea>
                     <button class="btn btn-primary save-button"
+                            id="generate-description-button-esterilizacao">Gerar Descrição</button>
+                    <button class="btn btn-primary save-button"
                             onclick="saveDescription('esterilizacao-description-text', 'esterilizacao')">Salvar
                     </button>
                 </div>
@@ -442,6 +457,8 @@
                     <textarea id="bisturieletrico-description-text" class="form-control"
                               placeholder="Digite o funcionamento do Bisturi Elétrico..."
                               oninput="autoExpand(this)"></textarea>
+                    <button class="btn btn-primary save-button"
+                            id="generate-description-button-bisturieletrico">Gerar Descrição</button>
                     <button class="btn btn-primary save-button"
                             onclick="saveDescription('bisturieletrico-description-text', 'bisturieletrico')">Salvar
                     </button>
@@ -478,6 +495,8 @@
                               placeholder="Digite o funcionamento da Bomba de Infusão..."
                               oninput="autoExpand(this)"></textarea>
                     <button class="btn btn-primary save-button"
+                            id="generate-description-button-bombainfusao">Gerar Descrição</button>
+                    <button class="btn btn-primary save-button"
                             onclick="saveDescription('bombainfusao-description-text', 'bombainfusao')">Salvar
                     </button>
                 </div>
@@ -512,6 +531,8 @@
                     <textarea id="ventiladorpulmonar-description-text" class="form-control"
                               placeholder="Digite o funcionamento do Ventilador Pulmonar..."
                               oninput="autoExpand(this)"></textarea>
+                    <button class="btn btn-primary save-button"
+                            id="generate-description-button-ventiladorpulmonar">Gerar Descrição</button>
                     <button class="btn btn-primary save-button"
                             onclick="saveDescription('ventiladorpulmonar-description-text', 'ventiladorpulmonar')">
                         Salvar
@@ -549,6 +570,8 @@
                               placeholder="Digite o funcionamento do Sistema de Anestesia..."
                               oninput="autoExpand(this)"></textarea>
                     <button class="btn btn-primary save-button"
+                            id="generate-description-button-sistemaanestesia">Gerar Descrição</button>
+                    <button class="btn btn-primary save-button"
                             onclick="saveDescription('sistemaanestesia-description-text', 'sistemaanestesia')">Salvar
                     </button>
                 </div>
@@ -584,6 +607,8 @@
                               placeholder="Digite o funcionamento da Hemodiálise..."
                               oninput="autoExpand(this)"></textarea>
                     <button class="btn btn-primary save-button"
+                            id="generate-description-button-hemodialise">Gerar Descrição</button>
+                    <button class="btn btn-primary save-button"
                             onclick="saveDescription('hemodialise-description-text', 'hemodialise')">Salvar
                     </button>
                 </div>
@@ -600,37 +625,78 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
-        // Função para exibir a descrição do equipamento
-        function showDescription(equipmentId) {
+
+
+            // Defina as descrições personalizadas para cada equipamento
+            const equipmentDescriptions = {
+                'bercoaquecido': 'O Berço Aquecido é um equipamento essencial em unidades neonatais...',
+                'incubadora': 'A Incubadora é projetada para fornecer um ambiente controlado e aquecido...',
+                'ecg': 'O ECG (Eletrocardiograma) é uma ferramenta fundamental para a avaliação...',
+                'oximetropulso': 'O Oxímetro de Pulso é um dispositivo utilizado para medir...',
+                'desfibriladorcardioversor': 'O Desfibrilador e Cardioversor é um equipamento vital...',
+                'eletroestimulador': 'O Eletroestimulador é um dispositivo utilizado em fisioterapia...',
+                'esterilizacao': 'O Equipamento de Esterilização desempenha um papel crucial...',
+                'bisturieletrico': 'O Bisturi Elétrico é um instrumento cirúrgico que utiliza...',
+                'bombainfusao': 'A Bomba de Infusão é um dispositivo médico utilizado...',
+                'ventiladorpulmonar': 'O Ventilador Pulmonar é um equipamento vital...',
+                'sistemaanestesia': 'O Sistema de Anestesia é essencial em cirurgias...',
+                'monitoresrespiracao': 'Os Monitores da Respiração são dispositivos utilizados para monitorar...',
+            };
+
+            // Função para gerar descrição personalizada
+            function generateCustomDescription(equipmentId) {
+            const description = equipmentDescriptions[equipmentId];
+            if (description) {
+            // Exiba a descrição personalizada no campo de texto
+            const descriptionElement = document.getElementById(`${equipmentId}-description-text`);
+            descriptionElement.value = description;
+        } else {
+            console.error('Descrição não encontrada para o equipamento:', equipmentId);
+        }
+        }
+
+            // Adicione um ouvinte de eventos a cada botão de geração de descrição
+            for (const equipmentId in equipmentDescriptions) {
+            const generateButton = document.getElementById(`generate-description-button-${equipmentId}`);
+            if (generateButton) {
+            generateButton.addEventListener('click', () => {
+            generateCustomDescription(equipmentId);
+        });
+        }
+        }
+
+            // Função para exibir a descrição do equipamento
+            function showDescription(equipmentId) {
             const description = document.getElementById(equipmentId + '-description');
             $('#' + equipmentId + '-modal').modal('show');
         }
 
-        // Função para salvar a descrição no LocalStorage
-        function saveDescription(descriptionId, equipmentId) {
+            // Função para salvar a descrição no LocalStorage
+            function saveDescription(descriptionId, equipmentId) {
             const textarea = document.getElementById(descriptionId);
             const descriptionText = textarea.value;
             localStorage.setItem(equipmentId + '-' + descriptionId, descriptionText);
         }
 
-        // Função para carregar a descrição do LocalStorage quando o modal é mostrado
-        $('.description-modal').on('show.bs.modal', function (e) {
+            // Função para carregar a descrição do LocalStorage quando o modal é mostrado
+            $('.description-modal').on('show.bs.modal', function (e) {
             const equipmentId = e.target.id.split('-')[0];
             const descriptionId = equipmentId + '-description-text';
             const descriptionText = localStorage.getItem(equipmentId + '-' + descriptionId);
             const textarea = document.getElementById(descriptionId);
             if (descriptionText) {
-                textarea.value = descriptionText;
-            } else {
-                textarea.value = ''; // Limpa o campo se não houver texto salvo
-            }
+            textarea.value = descriptionText;
+        } else {
+            textarea.value = ''; // Limpa o campo se não houver texto salvo
+        }
         });
 
-        // Função para expandir automaticamente o campo de texto
-        function autoExpand(textarea) {
+            // Função para expandir automaticamente o campo de texto
+            function autoExpand(textarea) {
             textarea.style.height = 'auto';
             textarea.style.height = (textarea.scrollHeight) + 'px';
         }
+
     </script>
 </div>
 </body>
